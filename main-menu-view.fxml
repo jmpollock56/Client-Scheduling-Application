@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="260.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_1.MainMenuController">
+   <children>
+      <Button layoutX="207.0" layoutY="94.0" mnemonicParsing="false" onAction="#toCustomers" text="Customers" />
+      <Button layoutX="198.0" layoutY="136.0" mnemonicParsing="false" onAction="#toAppointments" text="Appointments" />
+      <Button layoutX="215.0" layoutY="180.0" mnemonicParsing="false" onAction="#toReports" text="Reports" />
+      <Button fx:id="logoutBtn" layoutX="214.0" layoutY="221.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
+      <Label layoutX="191.0" layoutY="28.0" text="Welcome!">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
