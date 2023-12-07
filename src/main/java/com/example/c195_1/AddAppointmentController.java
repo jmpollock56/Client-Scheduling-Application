@@ -91,6 +91,7 @@ public class AddAppointmentController implements Initializable {
         LocalTime endTime = apptEndTimeCombo.getSelectionModel().getSelectedItem();
         int userId = userComboBox.getSelectionModel().getSelectedItem().getId();
         int customerId = customerComboBox.getSelectionModel().getSelectedItem().getId();
+        currentCustomer = customerComboBox.getSelectionModel().getSelectedItem();
 
 
         //create the LDT's
@@ -113,7 +114,7 @@ public class AddAppointmentController implements Initializable {
         }
 
 
-        for (Appointment app: Appointment.getAllAppointments()){
+        for (Appointment app: currentCustomer.getAppointments()){
             if ((startLDT.isAfter(app.getStart()) || startLDT.isEqual(app.getStart())) && startLDT.isBefore(app.getEnd())){ // new app time overlap comparison
                 overlap = true;
                 break;
@@ -128,6 +129,7 @@ public class AddAppointmentController implements Initializable {
 
         if (overlap){
             showOverlapAlert();
+            overlap = false;
             return;
         }
 
@@ -179,25 +181,25 @@ public class AddAppointmentController implements Initializable {
             LocalTime newTime = LocalTime.from(userStartZDT);
             startTimes.add(newTime);
 
-            userStartZDT = userStartZDT.plusMinutes(30);
+            userStartZDT = userStartZDT.plusMinutes(15);
         }
 
         apptStartTimeCombo.setPromptText("Choose a start time");
         apptStartTimeCombo.setItems(startTimes);
     }
 
-    private void onStartSelection(ActionEvent event) {
+    public void onStartSelection(ActionEvent event) {
         LocalTime startTimeSelect = apptStartTimeCombo.getSelectionModel().getSelectedItem();
         endTimes.clear();
         populateEndComboBox(startTimeSelect);
     }
 
     private void populateEndComboBox(LocalTime userStartTime) {
-        LocalTime endTimeStart = userStartTime.plusMinutes(30);
+        LocalTime endTimeStart = userStartTime.plusMinutes(15);
 
-        while (endTimeStart.isBefore((userEndZDT.toLocalTime()).plusMinutes(30))) {
+        while (endTimeStart.isBefore((userEndZDT.toLocalTime()).plusMinutes(15))) {
             endTimes.add(endTimeStart);
-            endTimeStart = endTimeStart.plusMinutes(30);
+            endTimeStart = endTimeStart.plusMinutes(15);
         }
 
         apptEndTimeCombo.setPromptText("Choose an end time");

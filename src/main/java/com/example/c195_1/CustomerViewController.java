@@ -113,11 +113,12 @@ public class CustomerViewController implements Initializable {
 
 
     public void back(ActionEvent event) throws IOException {
-        Parent addPartForm = FXMLLoader.load(getClass().getResource("main-menu-view.fxml"));
-        Scene addPartScene = new Scene(addPartForm);
-        Stage addPartStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-menu-view.fxml"));
+        Parent mainMenuParent = loader.load();
+        Scene mainMenuScene = new Scene(mainMenuParent);
 
-        addPartStage.setScene(addPartScene);
-        addPartStage.show();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(mainMenuScene);
+        stage.show();
     }
 }

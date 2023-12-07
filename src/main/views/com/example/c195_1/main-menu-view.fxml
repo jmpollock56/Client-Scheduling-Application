@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="260.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_1.MainMenuController">
+<AnchorPane fx:id="root" prefHeight="305.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c195_1.MainMenuController">
    <children>
       <Button layoutX="207.0" layoutY="94.0" mnemonicParsing="false" onAction="#toCustomers" text="Customers" />
       <Button layoutX="198.0" layoutY="136.0" mnemonicParsing="false" onAction="#toAppointments" text="Appointments" />
@@ -13,6 +13,13 @@
       <Label layoutX="191.0" layoutY="28.0" text="Welcome!">
          <font>
             <Font size="24.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="-243.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView fx:id="upcomingListView" layoutX="472.0" layoutY="61.0" prefHeight="200.0" prefWidth="260.0" />
+      <Label layoutX="501.0" layoutY="36.0" text="Upcoming (&lt;=15) Appointments">
+         <font>
+            <Font size="14.0" />
          </font>
       </Label>
    </children>

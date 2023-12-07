@@ -66,14 +66,11 @@ public class UpdateAppointmentController implements Initializable {
     private static LocalTime endTime;
     private LocalTime endTimeStart;
     private static Appointment selectedAppointment;
-    private static int userId;
-    private static int customerId;
     private ObservableList<LocalTime> startTimes = FXCollections.observableArrayList();
     private ObservableList<LocalTime> endTimes = FXCollections.observableArrayList();
     private boolean overlap = false;
 
     public static void loadAppointment(Appointment appointment) {
-
         selectedAppointment = appointment;
 
         id = appointment.getAppointmentId();
@@ -138,9 +135,10 @@ public class UpdateAppointmentController implements Initializable {
             LocalTime newTime = LocalTime.from(userStartZDT);
             startTimes.add(newTime);
 
-            userStartZDT = userStartZDT.plusMinutes(30);
+            userStartZDT = userStartZDT.plusMinutes(15);
         }
         apptStartCombo.setItems(startTimes);
+        populateEndComboBox(startTime);
 
         apptUserCombo.setValue(user);
         apptUserCombo.setItems(User.getUsers());
@@ -151,11 +149,11 @@ public class UpdateAppointmentController implements Initializable {
 
     private void populateEndComboBox(LocalTime userStartTime) {
         endTimes.clear();
-        endTimeStart = userStartTime.plusMinutes(30);
+        endTimeStart = userStartTime.plusMinutes(15);
 
-        while (endTimeStart.isBefore((userEndZDT.toLocalTime()).plusMinutes(30))) {
+        while (endTimeStart.isBefore((userEndZDT.toLocalTime()).plusMinutes(15))) {
             endTimes.add(endTimeStart);
-            endTimeStart = endTimeStart.plusMinutes(30);
+            endTimeStart = endTimeStart.plusMinutes(15);
         }
 
         apptEndCombo.setItems(endTimes);
@@ -179,11 +177,29 @@ public class UpdateAppointmentController implements Initializable {
         LocalTime newEndTime = apptEndCombo.getValue();
         int newUserId = apptUserCombo.getValue().getId();
         int newCustomerId = apptCustomerCombo.getValue().getId();
+        customer = apptCustomerCombo.getSelectionModel().getSelectedItem();
 
         LocalDateTime newStart = LocalDateTime.of(newDate, newStartTime);
         LocalDateTime newEnd = LocalDateTime.of(newDate, newEndTime);
 
-        for (Appointment app: Appointment.getAllAppointments()){
+        if (newStart.isBefore(LocalDateTime.now())){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Date Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please choose a date and time that is after date.");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+
+        for (Appointment app: customer.getAppointments()){
+            if (app.getAppointmentId() == newId){
+                continue;
+            }
             if ((newStart.isAfter(app.getStart()) || newStart.isEqual(app.getStart())) && newStart.isBefore(app.getEnd())){
                 overlap = true;
                 break;
@@ -198,6 +214,7 @@ public class UpdateAppointmentController implements Initializable {
 
         if (overlap){
             showOverlapAlert();
+            overlap = false;
             return;
         }
 
