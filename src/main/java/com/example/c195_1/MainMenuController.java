@@ -31,12 +31,10 @@ public class MainMenuController implements Initializable {
 
     @FXML private Button logoutBtn;
    public static User activeUser;
-
-   public  ObservableList<Appointment> upcomingAppointments = FXCollections.observableArrayList();
+   private ObservableList<Appointment> upcomingAppointments = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
 
         try {
 

@@ -54,7 +54,6 @@ public class ReportsViewController implements Initializable {
 
     public void onContactScheduleTab(Event event) {
         associatedAppointments.clear();
-        System.out.println(associatedAppointments + " Loading back in");
         contactComboBox.setItems(contacts);
     }
 
@@ -71,8 +70,6 @@ public class ReportsViewController implements Initializable {
     }
 
     public void onContactSelection(ActionEvent event) {
-        System.out.println("onContactScheduleTab - Clearing and reloading associatedAppointments");
-
         // Clear the associatedAppointments list
         associatedAppointments.clear();
 
@@ -129,12 +126,9 @@ public class ReportsViewController implements Initializable {
     }
 
     public void back(ActionEvent event) throws IOException {
-        associatedAppointments.clear();
-        System.out.println(associatedAppointments + " ---Leaving");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-menu-view.fxml"));
         Parent mainMenuParent = loader.load();
         Scene mainMenuScene = new Scene(mainMenuParent);
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(mainMenuScene);
         stage.show();
@@ -162,12 +156,11 @@ public class ReportsViewController implements Initializable {
         System.out.println(type);
         for (Appointment app : Appointment.getAllAppointments()){
             if (app.getType().equals(type) && app.getStart().getMonth() == month){
-                //associatedAppointments.add(app);
                 totalAppointments++;
                 System.out.println(app.getStart().getMonth() + " | " + app.getType());
             }
         }
-        System.out.println(associatedAppointments);
+
         totalLabel.setText("The total Appointments in " + month.name() + " of Type " + type + " is " + totalAppointments);
     }
 }
